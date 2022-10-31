@@ -8,13 +8,13 @@ lazy val commonSettings = Seq(
   licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 )
 
-crossScalaVersions := Seq("2.12.10", "2.13.1")
+crossScalaVersions := Seq("2.12.17", "2.13.10")
 
 organization := "com.samstarling"
 
-val finagleVersion = "20.1.0"
-val specs2Version = "4.9.2"
-val prometheusVersion = "0.8.1"
+val finagleVersion = "22.7.0"
+val specs2Version = "4.17.0"
+val prometheusVersion = "0.16.0"
 
 libraryDependencies ++= Seq(
   "com.twitter" %% "finagle-core" % finagleVersion,

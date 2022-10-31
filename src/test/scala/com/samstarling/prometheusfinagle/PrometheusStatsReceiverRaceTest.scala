@@ -23,9 +23,11 @@ class PrometheusStatsReceiverRaceTest extends UnitTest {
       val joinedFutures = Future.collect(cf)
 
       Await.result(joinedFutures, awaitDuration)
-      registry.getSampleValue("finagle_my_counter",
-                              Array("serviceName"),
-                              Array("test")) === threadCount
+      registry.getSampleValue(
+        "finagle_my_counter_total",
+        Array("serviceName"),
+        Array("test")
+      ) === threadCount
     }
 
     "handle incrementing concurrently nicely" in {
@@ -40,9 +42,11 @@ class PrometheusStatsReceiverRaceTest extends UnitTest {
       val joinedFutures = Future.collect(cf)
 
       Await.result(joinedFutures, awaitDuration)
-      registry.getSampleValue("finagle_my_counter",
-                              Array("serviceName"),
-                              Array("test")) === threadCount
+      registry.getSampleValue(
+        "finagle_my_counter_total",
+        Array("serviceName"),
+        Array("test")
+      ) === threadCount
     }
   }
 
@@ -58,9 +62,11 @@ class PrometheusStatsReceiverRaceTest extends UnitTest {
       val joinedFutures = Future.collect(cf)
 
       Await.result(joinedFutures, awaitDuration)
-      registry.getSampleValue("finagle_my_stat_count",
-                              Array("serviceName"),
-                              Array("test")) === threadCount
+      registry.getSampleValue(
+        "finagle_my_stat_count",
+        Array("serviceName"),
+        Array("test")
+      ) === threadCount
     }
   }
 
@@ -76,9 +82,11 @@ class PrometheusStatsReceiverRaceTest extends UnitTest {
       val joinedFutures = Future.collect(cf)
 
       Await.result(joinedFutures, awaitDuration)
-      registry.getSampleValue("finagle_my_gauge",
-                              Array("serviceName"),
-                              Array("test")) === 123.0f
+      registry.getSampleValue(
+        "finagle_my_gauge",
+        Array("serviceName"),
+        Array("test")
+      ) === 123.0f
     }
 
     "reflect gauge value after creation" in {
@@ -88,16 +96,19 @@ class PrometheusStatsReceiverRaceTest extends UnitTest {
         registry,
         "finagle",
         mockTimer,
-        Duration(10, TimeUnit.SECONDS)).scope("test")
+        Duration(10, TimeUnit.SECONDS)
+      ).scope("test")
 
       Time.withCurrentTimeFrozen { _ =>
         var gaugeResult = 42
         statsReceiver.addGauge("my_gauge") {
           gaugeResult
         }
-        registry.getSampleValue("finagle_my_gauge",
-                                Array("serviceName"),
-                                Array("test")) === 42
+        registry.getSampleValue(
+          "finagle_my_gauge",
+          Array("serviceName"),
+          Array("test")
+        ) === 42
       }
     }
 
@@ -108,23 +119,28 @@ class PrometheusStatsReceiverRaceTest extends UnitTest {
         registry,
         "finagle",
         mockTimer,
-        Duration(10, TimeUnit.SECONDS)).scope("test")
+        Duration(10, TimeUnit.SECONDS)
+      ).scope("test")
 
       Time.withCurrentTimeFrozen { timeCtl =>
         var gaugeResult = 42
         statsReceiver.addGauge("my_gauge") {
           gaugeResult
         }
-        registry.getSampleValue("finagle_my_gauge",
-                                Array("serviceName"),
-                                Array("test")) === 42
+        registry.getSampleValue(
+          "finagle_my_gauge",
+          Array("serviceName"),
+          Array("test")
+        ) === 42
 
         gaugeResult = 8
         timeCtl.advance(Duration(5, TimeUnit.SECONDS))
         mockTimer.tick()
-        registry.getSampleValue("finagle_my_gauge",
-                                Array("serviceName"),
-                                Array("test")) === 42
+        registry.getSampleValue(
+          "finagle_my_gauge",
+          Array("serviceName"),
+          Array("test")
+        ) === 42
       }
     }
 
@@ -135,24 +151,29 @@ class PrometheusStatsReceiverRaceTest extends UnitTest {
         registry,
         "finagle",
         mockTimer,
-        Duration(10, TimeUnit.SECONDS)).scope("test")
+        Duration(10, TimeUnit.SECONDS)
+      ).scope("test")
 
       Time.withCurrentTimeFrozen { timeCtl =>
         var gaugeResult = 42
         statsReceiver.addGauge("my_gauge") {
           gaugeResult
         }
-        registry.getSampleValue("finagle_my_gauge",
-                                Array("serviceName"),
-                                Array("test")) === 42
+        registry.getSampleValue(
+          "finagle_my_gauge",
+          Array("serviceName"),
+          Array("test")
+        ) === 42
 
         gaugeResult = 8
 
         timeCtl.advance(Duration(10, TimeUnit.SECONDS))
         mockTimer.tick()
-        registry.getSampleValue("finagle_my_gauge",
-                                Array("serviceName"),
-                                Array("test")) === 8
+        registry.getSampleValue(
+          "finagle_my_gauge",
+          Array("serviceName"),
+          Array("test")
+        ) === 8
       }
     }
   }
