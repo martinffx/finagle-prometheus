@@ -19,9 +19,6 @@ class MetricsServiceSpec extends UnitTest {
     val request = Request(Method.Get, "/")
     val response = Await.result(service.apply(request))
 
-    response.getContentString.trim ====
-      "# HELP unit_test_foo No help provided\n" +
-        "# TYPE unit_test_foo counter\n" +
-        "unit_test_foo 1.0"
+    response.getContentString.trim must contain("unit_test_foo_total 1.0")
   }
 }

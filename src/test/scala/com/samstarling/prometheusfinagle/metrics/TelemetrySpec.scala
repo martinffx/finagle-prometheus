@@ -38,7 +38,7 @@ class TelemetrySpec extends UnitTest {
     "returns a counter with" >> {
       "the correct name" in new CounterContext {
         CollectorHelper.firstMetricFor(counter).map { metric =>
-          metric.name ==== "test_widgets_total"
+          metric.name ==== "test_widgets"
         }
       }
 
