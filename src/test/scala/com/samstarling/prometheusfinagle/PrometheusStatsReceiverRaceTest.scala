@@ -1,4 +1,4 @@
-package com.samstarling.prometheusfinagle
+package me.martinrichards.prometheusfinagle
 
 import com.twitter.util.{Await, Duration, Future, FuturePool, MockTimer, Time}
 import io.prometheus.client.CollectorRegistry

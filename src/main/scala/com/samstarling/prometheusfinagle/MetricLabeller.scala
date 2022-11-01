@@ -1,4 +1,4 @@
-package com.samstarling.prometheusfinagle
+package me.martinrichards.prometheusfinagle
 
 class MetricLabeller {
   def labelNamesFor(name: Seq[String]): Seq[String] = name match {
@@ -31,7 +31,7 @@ class MetricLabeller {
       case Seq(_, "pending")            => "pending"
       case Seq(_, "http", "time", _)    => "http_time"
       case Seq(_, "http", "status", _)  => "http_status"
-      case default                      => name.map(_.replaceAll("[^\\w]", "_")).mkString("__")
+      case default => name.map(_.replaceAll("[^\\w]", "_")).mkString("__")
     }
   }
 }

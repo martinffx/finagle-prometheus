@@ -1,15 +1,15 @@
-package com.samstarling.prometheusfinagle.filter
+package me.martinrichards.prometheusfinagle.filter
 
-import com.samstarling.prometheusfinagle.metrics.Telemetry
+import me.martinrichards.prometheusfinagle.metrics.Telemetry
 import com.twitter.finagle.http.{Request, Response}
 import com.twitter.finagle.{Service, SimpleFilter}
 import com.twitter.util.{Future, Stopwatch}
 
-class HttpLatencyMonitoringFilter(telemetry: Telemetry,
-                                  buckets: Seq[Double],
-                                  labeller: ServiceLabeller[Request, Response] =
-                                    new HttpServiceLabeller)
-    extends SimpleFilter[Request, Response] {
+class HttpLatencyMonitoringFilter(
+    telemetry: Telemetry,
+    buckets: Seq[Double],
+    labeller: ServiceLabeller[Request, Response] = new HttpServiceLabeller
+) extends SimpleFilter[Request, Response] {
 
   private val histogram = telemetry.histogram(
     name = "incoming_http_request_latency_seconds",
@@ -18,8 +18,10 @@ class HttpLatencyMonitoringFilter(telemetry: Telemetry,
     buckets = buckets
   )
 
-  override def apply(request: Request,
-                     service: Service[Request, Response]): Future[Response] = {
+  override def apply(
+      request: Request,
+      service: Service[Request, Response]
+  ): Future[Response] = {
     val stopwatch = Stopwatch.start()
     service(request) onSuccess { response =>
       histogram

@@ -1,4 +1,4 @@
-package com.samstarling.prometheusfinagle.helper
+package me.martinrichards.prometheusfinagle.helper
 
 import io.prometheus.client.Collector.MetricFamilySamples.{Sample => PrometheusSample}
 import io.prometheus.client.{Collector, CollectorRegistry}
@@ -18,7 +18,8 @@ case class CollectorRegistryHelper(registry: CollectorRegistry) {
         s.name -> s
       })
       .groupBy(_._1)
-      .mapValues(_.map(_._2)).toMap
+      .mapValues(_.map(_._2))
+      .toMap
   }
 }
 

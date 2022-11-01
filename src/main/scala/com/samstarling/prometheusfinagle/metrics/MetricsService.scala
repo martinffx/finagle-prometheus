@@ -1,4 +1,4 @@
-package com.samstarling.prometheusfinagle.metrics
+package me.martinrichards.prometheusfinagle.metrics
 
 import java.io.StringWriter
 

@@ -1,31 +1,30 @@
-package com.samstarling.prometheusfinagle
+package me.martinrichards.prometheusfinagle
 
 import com.twitter.finagle.stats._
-import io.prometheus.client.{CollectorRegistry, Summary, Counter => PCounter, Gauge => PGauge}
+import io.prometheus.client.{CollectorRegistry, Counter => PCounter, Gauge => PGauge, Summary}
 
 import scala.collection.concurrent.TrieMap
 import com.twitter.util._
 import com.twitter.finagle.util.DefaultTimer
 
-class PrometheusStatsReceiver(registry: CollectorRegistry,
-                              namespace: String,
-                              timer: Timer,
-                              gaugePollInterval: Duration)
-    extends StatsReceiver
+class PrometheusStatsReceiver(
+    registry: CollectorRegistry,
+    namespace: String,
+    timer: Timer,
+    gaugePollInterval: Duration
+) extends StatsReceiver
     with Closable {
 
-
   def this() =
-    this(CollectorRegistry.defaultRegistry,
-         "finagle",
+    this(
+      CollectorRegistry.defaultRegistry,
+      "finagle",
       new JavaTimer(true),
-         Duration.fromSeconds(10))
+      Duration.fromSeconds(10)
+    )
 
   def this(registry: CollectorRegistry) =
-    this(registry,
-         "finagle",
-      new JavaTimer(true),
-         Duration.fromSeconds(10))
+    this(registry, "finagle", new JavaTimer(true), Duration.fromSeconds(10))
 
   protected val counters = TrieMap.empty[String, PCounter]
   protected val summaries = TrieMap.empty[String, Summary]
@@ -35,9 +34,8 @@ class PrometheusStatsReceiver(registry: CollectorRegistry,
     TrieMap.empty[(String, Seq[String]), (() => Float)]
 
   protected val task = timer.schedule(gaugePollInterval) {
-    gaugeProviders.foreach {
-      case (childGaugeKey, provider) =>
-        gaugeChilds.get(childGaugeKey).foreach(_.set(provider()))
+    gaugeProviders.foreach { case (childGaugeKey, provider) =>
+      gaugeChilds.get(childGaugeKey).foreach(_.set(provider()))
     }
   }
 
@@ -81,8 +79,7 @@ class PrometheusStatsReceiver(registry: CollectorRegistry,
     }
   }
 
-  override def addGauge(schema: MetricBuilder)(
-      f: => Float): Gauge = {
+  override def addGauge(schema: MetricBuilder)(f: => Float): Gauge = {
     val (metricName, labels) = extractLabels(schema.name)
     val labelValues = labels.values.toSeq
 
@@ -93,8 +90,10 @@ class PrometheusStatsReceiver(registry: CollectorRegistry,
 
     this.synchronized {
       gaugeChilds
-        .getOrElseUpdate((metricName, labelValues),
-                         gauges(metricName).labels(labelValues: _*))
+        .getOrElseUpdate(
+          (metricName, labelValues),
+          gauges(metricName).labels(labelValues: _*)
+        )
         .set(f) // Set once initially
     }
 
@@ -107,8 +106,10 @@ class PrometheusStatsReceiver(registry: CollectorRegistry,
     }
   }
 
-  private def newCounter(metricName: String,
-                         labelNames: Seq[String]): PCounter = {
+  private def newCounter(
+      metricName: String,
+      labelNames: Seq[String]
+  ): PCounter = {
     PCounter
       .build()
       .namespace(namespace)
@@ -118,8 +119,10 @@ class PrometheusStatsReceiver(registry: CollectorRegistry,
       .register(registry)
   }
 
-  private def newSummary(metricName: String,
-                         labelNames: Seq[String]): Summary = {
+  private def newSummary(
+      metricName: String,
+      labelNames: Seq[String]
+  ): Summary = {
     Summary
       .build()
       .namespace(namespace)
@@ -150,10 +153,12 @@ class PrometheusStatsReceiver(registry: CollectorRegistry,
   def metricPattern: DefaultMetricPatterns.Pattern = DefaultMetricPatterns.All
 
   protected def extractLabels(
-      name: Seq[String]): (String, Map[String, String]) = {
+      name: Seq[String]
+  ): (String, Map[String, String]) = {
     metricPattern.applyOrElse(
       name.map(_.replaceAll("[^\\w]", "_")),
-      (x: Seq[String]) => DefaultMetricPatterns.sanitizeName(x) -> Map.empty)
+      (x: Seq[String]) => DefaultMetricPatterns.sanitizeName(x) -> Map.empty
+    )
   }
 }
 
@@ -166,48 +171,65 @@ object DefaultMetricPatterns {
 
   val prometheusLabelForLabel = "serviceName"
 
-  val DefaultMatch: Pattern = {
-    case label +: (metrics @ _ +: _) =>
-      (sanitizeName(metrics), Map(prometheusLabelForLabel -> label))
+  val DefaultMatch: Pattern = { case label +: (metrics @ _ +: _) =>
+    (sanitizeName(metrics), Map(prometheusLabelForLabel -> label))
   }
 
   val PerHost: Pattern = {
     case Seq("host", label, host, "failures", failure) =>
-      (s"perHost_failures",
-       Map(prometheusLabelForLabel -> label,
-           "host" -> host,
-           "class" -> failure))
+      (
+        s"perHost_failures",
+        Map(
+          prometheusLabelForLabel -> label,
+          "host" -> host,
+          "class" -> failure
+        )
+      )
     case "host" +: label +: host +: metrics =>
-      (s"perHost_${sanitizeName(metrics)}",
-       Map(prometheusLabelForLabel -> label, "host" -> host))
+      (
+        s"perHost_${sanitizeName(metrics)}",
+        Map(prometheusLabelForLabel -> label, "host" -> host)
+      )
   }
 
   val Core: Pattern = {
     case Seq(label, "failures", exceptionName) =>
-      ("failures_perException",
-       Map(prometheusLabelForLabel -> label, "class" -> exceptionName))
+      (
+        "failures_perException",
+        Map(prometheusLabelForLabel -> label, "class" -> exceptionName)
+      )
     case Seq(label, "sourcedfailures", sourceService, exceptionName) =>
-      ("failures_perException",
-       Map(prometheusLabelForLabel -> label,
-           "sourceService" -> sourceService,
-           "class" -> exceptionName))
+      (
+        "failures_perException",
+        Map(
+          prometheusLabelForLabel -> label,
+          "sourceService" -> sourceService,
+          "class" -> exceptionName
+        )
+      )
     case Seq(label, metric) =>
       (metric, Map(prometheusLabelForLabel -> label))
   }
 
   val LoadBalancer: Pattern = {
     case Seq(label, "loadbalancer", "algorithm", algorithm) =>
-      (s"loadbalancer_algorithm",
-       Map(prometheusLabelForLabel -> label, "algorithm" -> algorithm))
+      (
+        s"loadbalancer_algorithm",
+        Map(prometheusLabelForLabel -> label, "algorithm" -> algorithm)
+      )
   }
 
   val Http: Pattern = {
     case Seq(label, "http", "time", resultCode) =>
-      ("http_request_duration",
-       Map(prometheusLabelForLabel -> label, "resultCode" -> resultCode))
+      (
+        "http_request_duration",
+        Map(prometheusLabelForLabel -> label, "resultCode" -> resultCode)
+      )
     case Seq(label, "http", "status", resultCode) =>
-      ("http_request_classification",
-       Map(prometheusLabelForLabel -> label, "resultCode" -> resultCode))
+      (
+        "http_request_classification",
+        Map(prometheusLabelForLabel -> label, "resultCode" -> resultCode)
+      )
     case Seq(label, "http", "response_size") =>
       ("http_response_size", Map(prometheusLabelForLabel -> label))
   }
