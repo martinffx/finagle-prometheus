@@ -1,4 +1,4 @@
-![Build](https://github.com/martinffx/finagle-prometheus/actions/workflows/scala.yml/badge.svg)
+![Build](https://github.com/martinffx/finagle-prometheus/actions/workflows/scala.yml/badge.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/martinffx/finagle-prometheus/badge.svg?branch=master)](https://coveralls.io/github/martinffx/finagle-prometheus?branch=master)
 
 # finagle-prometheus
