@@ -1,9 +1,9 @@
-package com.samstarling.prometheusfinagle.examples
+package me.martinrichards.prometheusfinagle.examples
 
 import java.net.InetSocketAddress
 
-import com.samstarling.prometheusfinagle.PrometheusStatsReceiver
-import com.samstarling.prometheusfinagle.metrics.{MetricsService, Telemetry}
+import me.martinrichards.prometheusfinagle.PrometheusStatsReceiver
+import me.martinrichards.prometheusfinagle.metrics.{MetricsService, Telemetry}
 import com.twitter.finagle.builder.ServerBuilder
 import com.twitter.finagle.http._
 import com.twitter.finagle.http.path._

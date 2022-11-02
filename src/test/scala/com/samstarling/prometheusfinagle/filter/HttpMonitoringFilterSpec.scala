@@ -1,8 +1,8 @@
-package com.samstarling.prometheusfinagle.filter
+package me.martinrichards.prometheusfinagle.filter
 
-import com.samstarling.prometheusfinagle.UnitTest
-import com.samstarling.prometheusfinagle.helper.CollectorHelper
-import com.samstarling.prometheusfinagle.metrics.Telemetry
+import me.martinrichards.prometheusfinagle.UnitTest
+import me.martinrichards.prometheusfinagle.helper.CollectorHelper
+import me.martinrichards.prometheusfinagle.metrics.Telemetry
 import com.twitter.finagle.Service
 import com.twitter.finagle.http.{Method, Request, Response, Status}
 import com.twitter.util.{Await, Future}

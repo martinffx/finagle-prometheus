@@ -1,4 +1,4 @@
-package com.samstarling.prometheusfinagle.metrics
+package me.martinrichards.prometheusfinagle.metrics
 
 import io.prometheus.client._
 
@@ -15,47 +15,59 @@ class Telemetry(registry: CollectorRegistry, namespace: String) {
 
   // TODO: Support injecting default labels
 
-  def counter(name: String,
-              help: String = "No help provided",
-              labelNames: Seq[String] = Seq.empty): Counter = {
-    counters.getOrElseUpdate(cacheKeyFor(name), {
-      Counter
-        .build()
-        .namespace(namespace)
-        .name(name)
-        .help(help)
-        .labelNames(labelNames: _*)
-        .register(registry)
-    })
+  def counter(
+      name: String,
+      help: String = "No help provided",
+      labelNames: Seq[String] = Seq.empty
+  ): Counter = {
+    counters.getOrElseUpdate(
+      cacheKeyFor(name), {
+        Counter
+          .build()
+          .namespace(namespace)
+          .name(name)
+          .help(help)
+          .labelNames(labelNames: _*)
+          .register(registry)
+      }
+    )
   }
 
-  def histogram(name: String,
-                help: String = "No help provided",
-                labelNames: Seq[String] = Seq.empty,
-                buckets: Seq[Double] = Seq(0.1, 0.5, 1.0, 5.0)): Histogram = {
-    histograms.getOrElseUpdate(cacheKeyFor(name), {
-      Histogram
-        .build()
-        .namespace(namespace)
-        .name(name)
-        .help(help)
-        .buckets(buckets: _*)
-        .labelNames(labelNames: _*)
-        .register(registry)
-    })
+  def histogram(
+      name: String,
+      help: String = "No help provided",
+      labelNames: Seq[String] = Seq.empty,
+      buckets: Seq[Double] = Seq(0.1, 0.5, 1.0, 5.0)
+  ): Histogram = {
+    histograms.getOrElseUpdate(
+      cacheKeyFor(name), {
+        Histogram
+          .build()
+          .namespace(namespace)
+          .name(name)
+          .help(help)
+          .buckets(buckets: _*)
+          .labelNames(labelNames: _*)
+          .register(registry)
+      }
+    )
   }
 
-  def gauge(name: String,
-            help: String = "No help provided",
-            labelNames: Seq[String] = Seq.empty): Gauge = {
-    gauges.getOrElseUpdate(cacheKeyFor(name), {
-      Gauge
-        .build()
-        .namespace(namespace)
-        .name(name)
-        .help(help)
-        .labelNames(labelNames: _*)
-        .register(registry)
-    })
+  def gauge(
+      name: String,
+      help: String = "No help provided",
+      labelNames: Seq[String] = Seq.empty
+  ): Gauge = {
+    gauges.getOrElseUpdate(
+      cacheKeyFor(name), {
+        Gauge
+          .build()
+          .namespace(namespace)
+          .name(name)
+          .help(help)
+          .labelNames(labelNames: _*)
+          .register(registry)
+      }
+    )
   }
 }

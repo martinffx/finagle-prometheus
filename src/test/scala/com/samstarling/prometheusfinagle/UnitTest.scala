@@ -1,6 +1,6 @@
-package com.samstarling.prometheusfinagle
+package me.martinrichards.prometheusfinagle
 
-import com.samstarling.prometheusfinagle.filter.HttpServiceLabeller
+import me.martinrichards.prometheusfinagle.filter.HttpServiceLabeller
 import com.twitter.finagle.http.{Request, Response}
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification

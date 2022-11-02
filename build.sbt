@@ -1,5 +1,3 @@
-import org.scoverage.coveralls.Imports.CoverallsKeys._
-
 name := "finagle-prometheus"
 
 lazy val commonSettings = Seq(
@@ -31,9 +29,6 @@ parallelExecution in ThisBuild := false
 
 lazy val core = (project in file("."))
   .settings(commonSettings: _*)
-  .settings(coverageEnabled := false,
-            coverallsTokenFile := Some("src/test/resources/coveralls-key.txt"),
-            releaseCrossBuild := true)
 
 lazy val examples = (project in file("examples"))
   .settings(commonSettings: _*)
@@ -42,7 +37,7 @@ lazy val examples = (project in file("examples"))
 
 lazy val root = project.aggregate(core, examples)
 
-homepage := Some(url("https://github.com/samstarling/finagle-prometheus"))
+homepage := Some(url("https://github.com/martinffx/finagle-prometheus"))
 
 pomExtra :=
   <scm>

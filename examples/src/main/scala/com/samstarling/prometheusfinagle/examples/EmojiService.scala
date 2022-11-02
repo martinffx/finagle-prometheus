@@ -1,4 +1,4 @@
-package com.samstarling.prometheusfinagle.examples
+package me.martinrichards.prometheusfinagle.examples
 
 import com.twitter.finagle.{Http, Service}
 import com.twitter.finagle.http.{Method, Request, Response, Status}

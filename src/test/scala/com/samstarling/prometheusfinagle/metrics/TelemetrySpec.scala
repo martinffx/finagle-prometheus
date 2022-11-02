@@ -1,7 +1,7 @@
-package com.samstarling.prometheusfinagle.metrics
+package me.martinrichards.prometheusfinagle.metrics
 
-import com.samstarling.prometheusfinagle.UnitTest
-import com.samstarling.prometheusfinagle.helper.CollectorHelper
+import me.martinrichards.prometheusfinagle.UnitTest
+import me.martinrichards.prometheusfinagle.helper.CollectorHelper
 import io.prometheus.client.CollectorRegistry
 import org.specs2.specification.Scope
 
@@ -15,10 +15,11 @@ class TelemetrySpec extends UnitTest {
     val telemetry = new Telemetry(registry, "test")
   }
 
-  /**
-    * It's not possible to fetch the name, help or labels from Counter/Histogram/Gauge objects themselves, so we
-    * have to perform an action against them (such as incrementing a counter) and inspect the resulting metrics
-    * and/or samples to ensure that everything is as we expect it.
+  /** It's not possible to fetch the name, help or labels from
+    * Counter/Histogram/Gauge objects themselves, so we have to perform an
+    * action against them (such as incrementing a counter) and inspect the
+    * resulting metrics and/or samples to ensure that everything is as we expect
+    * it.
     */
   "#counter" >> {
 

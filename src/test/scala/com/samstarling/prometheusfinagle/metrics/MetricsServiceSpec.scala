@@ -1,6 +1,6 @@
-package com.samstarling.prometheusfinagle.metrics
+package me.martinrichards.prometheusfinagle.metrics
 
-import com.samstarling.prometheusfinagle.UnitTest
+import me.martinrichards.prometheusfinagle.UnitTest
 import com.twitter.finagle.http.{Method, Request}
 import com.twitter.util.Await
 import io.prometheus.client.CollectorRegistry

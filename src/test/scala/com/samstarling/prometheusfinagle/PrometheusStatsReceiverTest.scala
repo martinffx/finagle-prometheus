@@ -1,4 +1,4 @@
-package com.samstarling.prometheusfinagle
+package me.martinrichards.prometheusfinagle
 
 import com.twitter.app.LoadService
 import com.twitter.finagle.stats.{StatsReceiver, Verbosity}
@@ -21,7 +21,8 @@ class PrometheusStatsReceiverTest extends UnitTest {
 
     "be able to be instantiated by newInstance" in {
       classOf[PrometheusStatsReceiver].newInstance() must not(
-        throwA[NoSuchMethodException])
+        throwA[NoSuchMethodException]
+      )
     }
 
     "allow a registry to be passed" in {
@@ -32,26 +33,29 @@ class PrometheusStatsReceiverTest extends UnitTest {
     "allow a registry, namespace, and a Timer to be passed" in {
       val registry = CollectorRegistry.defaultRegistry
       val namespace = "testnamespace"
-      new PrometheusStatsReceiver(registry,
-                                  namespace,
-                                  DefaultTimer.twitter,
-                                  Duration.fromSeconds(1)) must not(
-        throwA[RuntimeException])
+      new PrometheusStatsReceiver(
+        registry,
+        namespace,
+        DefaultTimer.twitter,
+        Duration.fromSeconds(1)
+      ) must not(throwA[RuntimeException])
     }
 
     "allow metrics and labels with unsafe characters" in {
       val registry = CollectorRegistry.defaultRegistry
       val namespace = "test_metric_names_and_labels"
-      val statsReceiver = new PrometheusStatsReceiver(registry,
-                                                      namespace,
-                                                      DefaultTimer.twitter,
-                                                      Duration.fromSeconds(1))
+      val statsReceiver = new PrometheusStatsReceiver(
+        registry,
+        namespace,
+        DefaultTimer.twitter,
+        Duration.fromSeconds(1)
+      )
       val metrics = Seq(
         Seq("finagle", "build/revision"),
         Seq("foo/bar", "baz"),
         Seq("foo/bar", "build/revision"),
         Seq("foo-bar", "baz"),
-        Seq("finagle", "build-revsion"),
+        Seq("finagle", "build-revsion")
       )
       metrics foreach { name =>
         statsReceiver.stat(Verbosity.Default, name: _*)

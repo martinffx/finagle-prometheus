@@ -1,6 +1,7 @@
-# finagle-prometheus
+![Build](https://github.com/martinffx/finagle-prometheus/actions/workflows/scala.yml/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/martinffx/finagle-prometheus/badge.svg?branch=master)](https://coveralls.io/github/martinffx/finagle-prometheus?branch=master)
 
-[![Build Status](https://travis-ci.org/samstarling/finagle-prometheus.svg?branch=master)](https://travis-ci.org/samstarling/finagle-prometheus) [![Coverage Status](https://coveralls.io/repos/github/samstarling/finagle-prometheus/badge.svg?branch=master)](https://coveralls.io/github/samstarling/finagle-prometheus?branch=master)
+# finagle-prometheus
 
 `finagle-prometheus` is a library that provides a bridge between Finagle and Prometheus. It contains everything you need to get metrics from a Finagle application into Prometheus.
 
@@ -9,7 +10,7 @@
 The library is available in Maven Central, for both Scala 2.12 and 2.13, so just add the following dependency:
 
 ```
-"com.samstarling" %% "finagle-prometheus" % "0.0.8"
+"me.martinrichards" %% "finagle-prometheus" % "1.0.0"
 ```
 
 ## Usage
@@ -50,7 +51,7 @@ Http.client
 The best thing you can do is use the `PrometheusStatsReceiver` by default. To do this, create a file at `resources/META-INF/services/com.twitter.finagle.stats.StatsReceiver` with the following contents:
 
 ```
-com.samstarling.prometheusfinagle.PrometheusStatsReceiver
+me.martinrichards.prometheusfinagle.PrometheusStatsReceiver
 ```
 
 The default constructor for the class will be used. This behaviour is documented in [Finagle's Resolver class](https://twitter.github.io/finagle/docs/com/twitter/finagle/Resolver.html), as well as in [the util-stats documentation](https://twitter.github.io/util/guide/util-stats/user_guide.html). For full documentation of the metrics exposed, and what they mean, see [the Metrics page on the Finagle documentation site](https://twitter.github.io/finagle/guide/Metrics.html).
@@ -75,7 +76,7 @@ counter.labels(dayOfWeek).inc()
 
 The library provides some existing filters that you can add to your service. At the moment, they only relate to HTTP. The metrics they export are entirely separate from existing Finagle metrics. The following filters exist:
 
-* `HttpMonitoringFilter`: gives metrics relating to the number of HTTP responses, including status code and HTTP method.
-* `HttpLatencyMonitoringFilter`: gives metrics relating to the latency of HTTP  responses, including status code and HTTP method.
+- `HttpMonitoringFilter`: gives metrics relating to the number of HTTP responses, including status code and HTTP method.
+- `HttpLatencyMonitoringFilter`: gives metrics relating to the latency of HTTP responses, including status code and HTTP method.
 
 Note: your service must be of the type `Service[http.Request, http.Response]`.
