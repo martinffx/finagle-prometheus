@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/martinffx/finagle-prometheus/badge.svg?branch=master)](https://coveralls.io/github/martinffx/finagle-prometheus?branch=master)
+
 # finagle-prometheus
 
 `finagle-prometheus` is a library that provides a bridge between Finagle and Prometheus. It contains everything you need to get metrics from a Finagle application into Prometheus.
