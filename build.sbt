@@ -1,14 +1,14 @@
 name := "finagle-prometheus"
 
 lazy val commonSettings = Seq(
-  organization := "com.samstarling",
+  organization := "io.github.martinffx",
   scalaVersion := "2.12.10",
   licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 )
 
 crossScalaVersions := Seq("2.12.17", "2.13.10")
 
-organization := "com.samstarling"
+organization := "io.github.martinffx"
 
 val finagleVersion = "22.7.0"
 val specs2Version = "4.17.0"
@@ -24,8 +24,8 @@ libraryDependencies ++= Seq(
   "org.specs2" %% "specs2-mock" % specs2Version % "test"
 )
 
-parallelExecution in Test := true
-parallelExecution in ThisBuild := false
+Test / parallelExecution := true
+ThisBuild / parallelExecution := false
 
 lazy val core = (project in file("."))
   .settings(commonSettings: _*)
@@ -33,25 +33,8 @@ lazy val core = (project in file("."))
 lazy val examples = (project in file("examples"))
   .settings(commonSettings: _*)
   .dependsOn(core)
-  .settings()
+  .settings(publish / skip := true)
 
 lazy val root = project.aggregate(core, examples)
 
 homepage := Some(url("https://github.com/martinffx/finagle-prometheus"))
-
-pomExtra :=
-  <scm>
-    <connection>
-      scm:git:git://github.com/samstarling/finagle-prometheus.git
-    </connection>
-    <url>
-      https://github.com/samstarling/finagle-prometheus
-    </url>
-  </scm>
-  <developers>
-    <developer>
-      <id>samstarling</id>
-      <name>Sam Starling</name>
-      <email>mail@samstarling.co.uk</email>
-    </developer>
-  </developers>
