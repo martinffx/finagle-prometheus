@@ -33,7 +33,7 @@ lazy val core = (project in file("."))
 lazy val examples = (project in file("examples"))
   .settings(commonSettings: _*)
   .dependsOn(core)
-  .settings(publish / skip := true)
+  .settings()
 
 lazy val root = project.aggregate(core, examples)
 
