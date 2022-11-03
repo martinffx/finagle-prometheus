@@ -26,6 +26,7 @@ libraryDependencies ++= Seq(
 
 Test / parallelExecution := true
 ThisBuild / parallelExecution := false
+ThisBuild / publishArtifact := true
 
 lazy val core = (project in file("."))
   .settings(commonSettings: _*)
