@@ -63,6 +63,7 @@ Test / parallelExecution := true
 ThisBuild / parallelExecution := false
 ThisBuild / publishArtifact := true
 ThisBuild / releaseCrossBuild := true
+ThisBuild / releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
 lazy val core = (project in file("."))
   .settings(commonSettings: _*)
