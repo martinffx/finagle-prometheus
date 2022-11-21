@@ -5,3 +5,4 @@ src/test/resources/coveralls-key.txt
 .metals
 project/metals.sbt
 project/project/
+.DS_Store

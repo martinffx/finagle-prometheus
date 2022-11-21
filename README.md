@@ -10,7 +10,7 @@
 The library is available in Maven Central, for both Scala 2.12 and 2.13, so just add the following dependency:
 
 ```
-"me.martinrichards" %% "finagle-prometheus" % "1.0.0"
+"io.github.martinffx" %% "finagle-prometheus" % "1.0.0"
 ```
 
 ## Usage
@@ -51,7 +51,7 @@ Http.client
 The best thing you can do is use the `PrometheusStatsReceiver` by default. To do this, create a file at `resources/META-INF/services/com.twitter.finagle.stats.StatsReceiver` with the following contents:
 
 ```
-me.martinrichards.prometheusfinagle.PrometheusStatsReceiver
+io.github.martinffx.prometheusfinagle.PrometheusStatsReceiver
 ```
 
 The default constructor for the class will be used. This behaviour is documented in [Finagle's Resolver class](https://twitter.github.io/finagle/docs/com/twitter/finagle/Resolver.html), as well as in [the util-stats documentation](https://twitter.github.io/util/guide/util-stats/user_guide.html). For full documentation of the metrics exposed, and what they mean, see [the Metrics page on the Finagle documentation site](https://twitter.github.io/finagle/guide/Metrics.html).
