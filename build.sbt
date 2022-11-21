@@ -9,7 +9,6 @@ ThisBuild / crossScalaVersions := Seq("2.12.17", "2.13.10")
 
 ThisBuild / organization := "io.github.martinffx"
 ThisBuild / description := "Publish Finagle StatsCollector stats via Prometheus"
-ThisBuild / version := "0.16.0"
 ThisBuild / homepage := Some(
   url("https://github.com/martinffx/finagle-prometheus")
 )
@@ -62,7 +61,7 @@ libraryDependencies ++= Seq(
 
 Test / parallelExecution := true
 ThisBuild / parallelExecution := false
-ThisBuild / publishArtifact := true
+ThisBuild / publishArtifact := false
 
 lazy val core = (project in file("."))
   .settings(commonSettings: _*)
