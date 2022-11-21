@@ -62,6 +62,9 @@ libraryDependencies ++= Seq(
 Test / parallelExecution := true
 ThisBuild / parallelExecution := false
 ThisBuild / publishArtifact := true
+ThisBuild / publishConfiguration := publishConfiguration.value.withOverwrite(
+  true
+)
 ThisBuild / releaseCrossBuild := true
 ThisBuild / releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
