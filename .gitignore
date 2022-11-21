@@ -1,6 +1,7 @@
 target
 src/test/resources/coveralls-key.txt
-.bloop
+**/.bloop
+**/.bsp
 .metals
 project/metals.sbt
 project/project/
