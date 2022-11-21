@@ -61,7 +61,7 @@ libraryDependencies ++= Seq(
 
 Test / parallelExecution := true
 ThisBuild / parallelExecution := false
-ThisBuild / publishArtifact := true
+ThisBuild / publishArtifact := false
 ThisBuild / publishConfiguration := publishConfiguration.value.withOverwrite(
   true
 )
