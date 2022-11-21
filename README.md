@@ -10,7 +10,7 @@
 The library is available in Maven Central, for both Scala 2.12 and 2.13, so just add the following dependency:
 
 ```
-"io.github.martinffx" %% "finagle-prometheus" % "1.0.0"
+"io.github.martinffx" %% "finagle-prometheus" % "1.1.0"
 ```
 
 ## Usage
